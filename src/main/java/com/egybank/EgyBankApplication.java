@@ -24,7 +24,7 @@ public class EgyBankApplication extends Application {
         stage.setScene(scene);
         stage.show();
     }
-
+//habib galbi
     public static void main(String[] args) {
         launch();
     }
