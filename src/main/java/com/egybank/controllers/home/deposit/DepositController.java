@@ -48,7 +48,15 @@ public class DepositController extends HomeFragmentController implements UserObj
     }
 
     public void onDepositBtnClicked(MouseEvent mouseEvent) {
-        int depositedValue = Integer.parseInt(amountField.getText());
+
+        if(!isParsable(amountField.getText())){
+            AlertsHelper.showAlert(Alert.AlertType.ERROR, "Invalid Integer", "Please enter a valid Amount!");
+            return;
+        }
+
+        int depositedValue = Integer.parseInt(amountField.getText()) ;
+
+
 
         // TODO: - Add checking logic
         if (1!=1) {
@@ -66,6 +74,16 @@ public class DepositController extends HomeFragmentController implements UserObj
         if (Authentication.getCachedCurrentUser() == null) { return; }
         availableAmountLabel.setText("Available Balance: $"+ Authentication.getCurrentUser().getBalance());
     }
+
+    public static boolean isParsable(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (final NumberFormatException e) {
+            return false;
+        }
+    }
+
 
     @Override
     public void onUserUpdated(User user) {

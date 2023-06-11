@@ -64,6 +64,16 @@ public class TransferController extends HomeFragmentController implements UserOb
     }
 
     public void onTransferBtnClicked(MouseEvent mouseEvent) {
+        if(!isParsable(amountField.getText())){
+            AlertsHelper.showAlert(Alert.AlertType.ERROR, "Invalid Integer", "Please enter a valid Amount!");
+            return;
+        }
+
+        if(!isParsable(receivingAccountNoField.getText())){
+            AlertsHelper.showAlert(Alert.AlertType.ERROR, "Invalid Account Id", "Please enter a valid Account Id!");
+            return;
+        }
+
         int transferAmount = Integer.parseInt(amountField.getText());
         int toAccountId = Integer.parseInt(receivingAccountNoField.getText());
 
@@ -75,6 +85,15 @@ public class TransferController extends HomeFragmentController implements UserOb
         }
         catch (IllegalArgumentException e){
             AlertsHelper.showAlert(Alert.AlertType.ERROR, "Error", e.getMessage());
+        }
+    }
+
+    public static boolean isParsable(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (final NumberFormatException e) {
+            return false;
         }
     }
 

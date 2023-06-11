@@ -53,6 +53,11 @@ public class WithdrawController extends HomeFragmentController implements UserOb
     }
 
     public void onWithdrawBtnClicked(MouseEvent mouseEvent) {
+        if(!isParsable(amountField.getText())){
+            AlertsHelper.showAlert(Alert.AlertType.ERROR, "Invalid Integer", "Please enter a valid Amount!");
+            return;
+        }
+
         int withdrawnValue = Integer.parseInt(amountField.getText());
 
         try {
@@ -64,6 +69,15 @@ public class WithdrawController extends HomeFragmentController implements UserOb
         catch (IllegalArgumentException e){
             AlertsHelper.showAlert(Alert.AlertType.ERROR, "Invalid", e.getMessage());
             return;
+        }
+    }
+
+    public static boolean isParsable(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (final NumberFormatException e) {
+            return false;
         }
     }
 

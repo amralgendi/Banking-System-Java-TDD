@@ -1,6 +1,7 @@
 package com.egybank.performanceTesting;
 
 import com.egybank.controllers.home.deposit.DepositController;
+import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +11,16 @@ import java.util.concurrent.Executors;
 public class DepositPerformanceTesting {
 
     private static final int THREAD_COUNT = 1000;
-    private static DepositController depositController = new DepositController();
+    private static final int expectedTime = 2000;
+    private static DepositController depositController;
 
-    public static void main(String[] args) {
+    @BeforeEach
+    public void setUp(){
+        depositController = new DepositController();
+    }
+
+    @Test
+    public void Execute(String[] args) {
         ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
         List<Long> threadTimes = new ArrayList<>();
 
@@ -32,7 +40,7 @@ public class DepositPerformanceTesting {
         calculateStatistics(threadTimes);
     }
 
-    private static void deposit(int threadIndex, List<Long> threadTimes) {
+    private void deposit(int threadIndex, List<Long> threadTimes) {
         Integer userId = 1;
 
         long startTime = System.currentTimeMillis();
@@ -46,7 +54,7 @@ public class DepositPerformanceTesting {
         System.out.println("Thread " + threadIndex + " elapsed time: " + elapsedTime + "ms");
     }
 
-    private static void calculateStatistics(List<Long> threadTimes) {
+    private void calculateStatistics(List<Long> threadTimes) {
         long minTime = Long.MAX_VALUE;
         long maxTime = Long.MIN_VALUE;
         long totalTime = 0;
@@ -64,5 +72,7 @@ public class DepositPerformanceTesting {
         System.out.println("Min time: " + minTime + "ms");
         System.out.println("Max time: " + maxTime + "ms");
         System.out.println("Average time: " + averageTime + "ms");
+
+        Assertions.assertTrue(averageTime < expectedTime, "Average Time is not less than " + expectedTime + " milliseconds!");
     }
 }

@@ -2,6 +2,7 @@
 package com.egybank.performanceTesting;
 
         import com.egybank.controllers.onboarding.login.LoginController;
+        import org.junit.jupiter.api.*;
 
         import java.util.ArrayList;
         import java.util.List;
@@ -10,10 +11,17 @@ package com.egybank.performanceTesting;
 
 public class LoginFailPerformanceTesting {
 
-    private static final int THREAD_COUNT = 60;
-    private static LoginController loginController = new LoginController();
+    private final int THREAD_COUNT = 60;
+    private final int expectedTime = 2000;
+    private LoginController loginController;
 
-    public static void main(String[] args) {
+    @BeforeEach
+    public void setUp(){
+        loginController = new LoginController();
+    }
+
+    @Test
+    public void Execute() {
         ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
         List<Long> threadTimes = new ArrayList<>();
 
@@ -33,7 +41,7 @@ public class LoginFailPerformanceTesting {
         calculateStatistics(threadTimes);
     }
 
-    private static void login(int threadIndex, List<Long> threadTimes) {
+    private void login(int threadIndex, List<Long> threadTimes) {
         String email = "m@m.m";
         String password = "12";
 
@@ -56,7 +64,7 @@ public class LoginFailPerformanceTesting {
 
     }
 
-    private static void calculateStatistics(List<Long> threadTimes) {
+    private void calculateStatistics(List<Long> threadTimes) {
         long minTime = Long.MAX_VALUE;
         long maxTime = Long.MIN_VALUE;
         long totalTime = 0;
@@ -74,6 +82,8 @@ public class LoginFailPerformanceTesting {
         System.out.println("Min time: " + minTime + "ms");
         System.out.println("Max time: " + maxTime + "ms");
         System.out.println("Average time: " + averageTime + "ms");
+
+        Assertions.assertTrue(averageTime < expectedTime, "Average Time is not less than " + expectedTime + " milliseconds!");
     }
 }
 
