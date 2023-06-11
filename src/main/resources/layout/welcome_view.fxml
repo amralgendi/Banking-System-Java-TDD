@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<HBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="860.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.egybank.controllers.onboarding.welcome.WelcomeController">
+   <children>
+      <StackPane maxWidth="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="300.0">
+         <children>
+            <ImageView fitHeight="620.0" fitWidth="300.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../imgs/w.jpg" />
+               </image>
+            </ImageView>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#152438" height="620.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="300.0" />
+         </children>
+      </StackPane>
+      <Pane prefHeight="620.0" prefWidth="560.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="620.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="561.0" />
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutY="324.0" prefHeight="50.0" prefWidth="560.0" stylesheets="" text="Welcome to Bank of Egypt" textAlignment="CENTER" textFill="#152438">
+               <font>
+                  <Font name="Montserrat Bold" size="27.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="193.0" fitWidth="192.0" layoutX="183.0" layoutY="107.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imgs/main-logo.png" />
+               </image></ImageView>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="60.0" layoutY="375.0" prefHeight="61.0" prefWidth="438.0" styleClass="text-regular" text="You can access all the features by signing in to your account" textAlignment="CENTER" textFill="#a4a4a4" wrapText="true">
+               <font>
+                  <Font name="Montserrat Regular" size="19.0" />
+               </font>
+            </Label>
+            <StackPane layoutX="106.0" layoutY="468.0" onMouseClicked="#onLoginClicked" prefHeight="46.0" prefWidth="360.0">
+               <children>
+                  <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#1386af" height="46.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="360.0" />
+                  <Label styleClass="text-bold" text="Log in" textFill="WHITE">
+                     <font>
+                        <Font name="Montserrat Bold" size="17.0" />
+                     </font>
+                  </Label>
+               </children>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </StackPane>
+            <StackPane layoutX="106.0" layoutY="523.0" onMouseClicked="#onSignUpClicked" prefHeight="46.0" prefWidth="360.0">
+               <children>
+                  <Rectangle arcHeight="20.0" arcWidth="20.0" fill="WHITE" height="46.0" stroke="#1386af" strokeType="INSIDE" strokeWidth="2.0" width="360.0" />
+                  <Label styleClass="text-bold" text="Sign Up" textFill="#1386af">
+                     <font>
+                        <Font name="Montserrat Bold" size="17.0" />
+                     </font>
+                  </Label>
+               </children>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </StackPane>
+         </children>
+      </Pane>
+   </children>
+</HBox>
