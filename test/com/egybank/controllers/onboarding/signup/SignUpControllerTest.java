@@ -1,9 +1,8 @@
 package com.egybank.controllers.onboarding.signup;
 
+import com.egybank.helpers.db.dao.UserDataAccess;
 import com.egybank.models.User;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 class SignUpControllerTest {
     private SignUpController signUpController;
@@ -13,6 +12,7 @@ class SignUpControllerTest {
     private String password = "TestPassword@200";
     private String wrongEmail = "amc";
     private String wrongPassword = "wTestP";
+    private static Integer id = -1;
 
     @BeforeEach
     void setUp(){
@@ -25,10 +25,27 @@ class SignUpControllerTest {
         Assertions.assertNotNull(user);
         Assertions.assertEquals(email, user.getEmail());
         Assertions.assertEquals(password, user.getPassword());
+
+        id = user.getId();
     }
 
     @Test
     void signupWrongVerifiedPassword() {
-        User user = signUpController.signup("", "")
+        IllegalArgumentException e = Assertions.assertThrows(IllegalArgumentException.class, () -> signUpController.signup(name, email, password, ""));
+    }
+
+    @Test
+    void signupWrongEmail() {
+        IllegalArgumentException e = Assertions.assertThrows(IllegalArgumentException.class, () -> signUpController.signup(name, wrongEmail, password, password));
+    }
+
+    @Test
+    public void signupWrongPassword() {
+        IllegalArgumentException e = Assertions.assertThrows(IllegalArgumentException.class, () -> signUpController.signup(name, email, wrongPassword, wrongPassword));
+    }
+
+    @AfterAll
+    public static void tearDown(){
+        UserDataAccess.deleteUser(id);
     }
 }
