@@ -59,7 +59,7 @@ public class TransferController extends HomeFragmentController implements UserOb
                 amount,
                 TransactionType.TRANSFER.getIntRepresentation());
 
-        UserDataAccess.transfer(Authentication.getCurrentUser().getId(), toUserId, amount);
+        UserDataAccess.transfer(fromUserId, toUserId, amount);
         TransactionDataAccess.createNewTransaction(withDrawTransaction);
     }
 

@@ -11,7 +11,7 @@ package com.egybank.performanceTesting;
 
 public class LoginFailPerformanceTesting {
 
-    private final int THREAD_COUNT = 60;
+    private final int THREAD_COUNT = 200;
     private final int expectedTime = 2000;
     private LoginController loginController;
 

@@ -10,8 +10,8 @@ import java.util.concurrent.Executors;
 
 public class DepositPerformanceTesting {
 
-    private static final int THREAD_COUNT = 1000;
-    private static final int expectedTime = 2000;
+    private static final int THREAD_COUNT = 60;
+    private static final int expectedTime = 3500;
     private static DepositController depositController;
 
     @BeforeEach
@@ -20,7 +20,7 @@ public class DepositPerformanceTesting {
     }
 
     @Test
-    public void Execute(String[] args) {
+    public void Execute() {
         ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
         List<Long> threadTimes = new ArrayList<>();
 

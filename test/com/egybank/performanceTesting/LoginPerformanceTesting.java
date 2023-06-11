@@ -13,7 +13,7 @@ import java.util.concurrent.Executors;
 
 public class LoginPerformanceTesting {
 
-    private final int THREAD_COUNT = 100;
+    private final int THREAD_COUNT = 200;
     private final int expectedTime = 2000;
     private static LoginController loginController;
 

@@ -26,7 +26,6 @@ class TransferControllerTest {
     void transferinsufficient() {
         Integer balance1 = UserDataAccess.getUser(1).getBalance();
         Integer balance2 = UserDataAccess.getUser(2).getBalance();
-        transferController.transfer(1, 2, 100000);
         IllegalArgumentException exception = Assertions.assertThrows(
                 IllegalArgumentException.class,
                 () -> transferController.transfer(1, 2, 100000)
@@ -36,7 +35,6 @@ class TransferControllerTest {
 
     @Test
     void transferInvalidAccount(){
-        transferController.transfer(1, 8, 100);
         IllegalArgumentException exception = Assertions.assertThrows(
                 IllegalArgumentException.class,
                 () -> transferController.transfer(1, 8, 100)

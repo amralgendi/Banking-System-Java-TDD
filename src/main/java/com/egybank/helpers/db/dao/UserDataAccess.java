@@ -43,7 +43,6 @@ public class UserDataAccess {
                 }
             }
         } catch (SQLException e) {
-            System.out.println(e.toString());
             Logger.getAnonymousLogger().log(
                     Level.SEVERE,
                     LocalDateTime.now() + ": Could not add to database");
@@ -143,8 +142,6 @@ public class UserDataAccess {
     }
 
     public static Integer deposit(int userId, int amount) {
-        System.out.println(userId);
-        System.out.println(amount);
         String sql = "UPDATE users set balance=balance+? WHERE id=?";
         try (Connection connection = DatabaseAccess.connect()) {
 
