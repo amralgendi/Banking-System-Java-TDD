@@ -12,5 +12,4 @@ import com.egybank.models.User;
 
 public interface LoginCallback {
     void onLoginSuccess(User user);
-    void onLoginError();
 }

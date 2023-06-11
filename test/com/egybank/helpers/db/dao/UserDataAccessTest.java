@@ -1,10 +1,7 @@
 package com.egybank.helpers.db.dao;
 
 import com.egybank.models.User;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 public class UserDataAccessTest {
     static private String name;
@@ -23,7 +20,7 @@ public class UserDataAccessTest {
         balance = 400;
         firstId = -1;
         deposit = 50;
-        withdraw = 60;
+        withdraw = 40;
     }
 
     @Test
@@ -39,8 +36,8 @@ public class UserDataAccessTest {
         testGetUserById();
     }
 
-    @AfterEach
-    public void deleteUser(){
+    @AfterAll
+    public static void deleteUser(){
         User user = UserDataAccess.getUser(email, password);
         UserDataAccess.deleteUser(user.getId());
     }

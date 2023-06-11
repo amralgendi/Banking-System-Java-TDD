@@ -4,6 +4,7 @@ import com.egybank.controllers.SceneController;
 import com.egybank.helpers.AlertsHelper;
 import com.egybank.helpers.auth.Authentication;
 import com.egybank.helpers.auth.LoginCallback;
+import com.egybank.helpers.db.dao.UserDataAccess;
 import com.egybank.models.User;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -29,26 +30,38 @@ public class LoginController {
         SceneController.showSignupScene(event);
     }
 
+    public User login(String email, String password){
+        if (email.equals("") || password.equals("")) {
+            throw new IllegalArgumentException("Please enter both email and password");
+        }
+
+        User user = UserDataAccess.getUser(email, password);
+        if(user == null){
+            throw new NullPointerException("No User Found!");
+        }
+        return user;
+    }
+
     @FXML
     protected void onLoginButtonClicked(MouseEvent event) {
         String email = emailField.getText();
         String password = passwordField.getText();
 
-        if (email.equals("") || password.equals("")) {
-            AlertsHelper.showAlert(Alert.AlertType.ERROR, "Missing Fields", "Please enter your email AND password!");
-            return;
+        try {
+            User user = login(email, password);
+            Authentication.login(user, new LoginCallback() {
+                @Override
+                public void onLoginSuccess(User user) {
+                    SceneController.showDepositScene(event);
+                }
+            });
         }
-        Authentication.login(email, password, new LoginCallback() {
-            @Override
-            public void onLoginSuccess(User user) {
-                SceneController.showDepositScene(event);
-            }
-
-            @Override
-            public void onLoginError() {
-                AlertsHelper.showAlert(Alert.AlertType.ERROR, "Invalid Credentials", "Please check for your email or password!");
-            }
-        });
+        catch (IllegalArgumentException e){
+            AlertsHelper.showAlert(Alert.AlertType.ERROR, "Missing Fields", e.getMessage());
+        }
+        catch (NullPointerException e){
+            AlertsHelper.showAlert(Alert.AlertType.ERROR, "Invalid Credentials", e.getMessage());
+        }
     }
 
     @FXML

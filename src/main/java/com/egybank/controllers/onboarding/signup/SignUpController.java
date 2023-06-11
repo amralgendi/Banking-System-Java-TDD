@@ -29,6 +29,41 @@ public class SignUpController {
     @FXML
     private PasswordField verifyPasswordField;
 
+    public User signup(String name, String email, String password, String verifyPassword){
+        if (name.equals("") || email.equals("") || password.equals("") || verifyPassword.equals("")) {
+            throw new IllegalArgumentException("All fields are required.");
+        }
+
+        if (!SignUpValidation.isValidEmailAddress(email)) {
+            throw new IllegalArgumentException("Please make sure that the email is correct.");
+        }
+
+        if (!password.equals(verifyPassword)) {
+            throw new IllegalArgumentException("Password fields have different values.");
+        }
+
+        if (password.length() < 8) {
+            throw new IllegalArgumentException("Password must be 8 characters or more.");
+        }
+
+        if (UserDataAccess.isUserAvailable(email)) {
+            throw new IllegalArgumentException("The email provided has an account associated with, please login instead.");
+        }
+
+        User user = new User(0, name, email, password, 0);
+
+        Integer id = UserDataAccess.createNewUser(user);
+
+        if(id == null){
+            throw new NullPointerException("Something went wrong please try again later.");
+        }
+
+        User newUser = UserDataAccess.getUser(id);
+
+        return newUser;
+
+    }
+
     @FXML
     private void onSignupButtonClicked(MouseEvent event) {
 
@@ -37,48 +72,25 @@ public class SignUpController {
         String password = passwordField.getText();
         String verifyPassword = verifyPasswordField.getText();
 
-        if (name.equals("") || email.equals("") || password.equals("") || verifyPassword.equals("")) {
-            AlertsHelper.showAlert(Alert.AlertType.ERROR, "Missing Fields", "All fields are required.");
-            return;
+        try{
+            User user = signup(name, email, password, verifyPassword);
+
+            Authentication.signUpAndLogin(user, new SignUpCallback() {
+                @Override
+                public void onSignUpSuccess(User user) {
+                    SceneController.showDepositScene(event);
+                }
+
+            });
+
+        }
+        catch (IllegalArgumentException e){
+            AlertsHelper.showAlert(Alert.AlertType.ERROR, "Error", e.getMessage());
+        }
+        catch (NullPointerException e){
+            AlertsHelper.showAlert(Alert.AlertType.ERROR, "Error", e.getMessage());
         }
 
-        if (!SignUpValidation.isValidEmailAddress(email)) {
-            AlertsHelper.showAlert(Alert.AlertType.ERROR, "Invalid Email", "Please make sure that the email is correct.");
-            return;
-        }
-
-        if (!password.equals(verifyPassword)) {
-            AlertsHelper.showAlert(Alert.AlertType.ERROR, "Password mismatch", "Password fields have different values.");
-            return;
-        }
-
-        if (password.length() < 8) {
-            AlertsHelper.showAlert(Alert.AlertType.ERROR, "Weak Password", "Password must be 8 characters or more.");
-            return;
-        }
-
-        if (UserDataAccess.isUserAvailable(email)) {
-            AlertsHelper.showAlert(Alert.AlertType.ERROR, "Account exists", "The email provided has an account associated with, please login instead.");
-            return;
-        }
-
-        if (UserDataAccess.isUserAvailable(email)) {
-            AlertsHelper.showAlert(Alert.AlertType.ERROR, "Account exists", "The email provided has an account associated with, please login instead.");
-            return;
-        }
-
-        User newUserObj = new User(0, name, email, password, 0);
-        Authentication.signUpAndLogin(newUserObj, new SignUpCallback() {
-            @Override
-            public void onSignUpSuccess(User user) {
-                SceneController.showDepositScene(event);
-            }
-
-            @Override
-            public void onSignUpError() {
-                AlertsHelper.showAlert(Alert.AlertType.ERROR, "Sorry", "Something went wrong please try again later.");
-            }
-        });
 
     }
 

@@ -12,5 +12,4 @@ import com.egybank.models.User;
 
 public interface SignUpCallback {
     void onSignUpSuccess(User user);
-    void onSignUpError();
 }

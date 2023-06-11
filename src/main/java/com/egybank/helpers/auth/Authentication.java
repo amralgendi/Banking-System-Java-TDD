@@ -16,15 +16,9 @@ public class Authentication {
     private static User currentUser;
     private static UserObjectUpdated userObjectUpdated;
 
-    public static void login(String email, String password, LoginCallback callback) {
-        User user = UserDataAccess.getUser(email, password);
-
-        if (user == null) {
-            callback.onLoginError();
-        }else {
+    public static void login(User user, LoginCallback callback) {
             callback.onLoginSuccess(user);
             setCurrentUser(user);
-        }
     }
 
     public static void logout() {
@@ -32,13 +26,8 @@ public class Authentication {
     }
 
     public static void signUpAndLogin(User user, SignUpCallback callback) {
-        Integer id = UserDataAccess.createNewUser(user);
-        if (id == null) {
-            callback.onSignUpError();
-        }else {
-            setCurrentUser(UserDataAccess.getUser(id));
-            callback.onSignUpSuccess(currentUser);
-        }
+        setCurrentUser(user);
+        callback.onSignUpSuccess(user);
     }
 
     public static void setCurrentUser(User currentUser) {
